@@ -16,15 +16,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,900|Inconsolata:400,700');
+@import "~@/assets/styles/variables";
+
 #app {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $montserrat;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
   font-weight: 400;
   padding-bottom: 12px;
+  color: $color_text_main;
 }
 img{
   max-width: 100%;

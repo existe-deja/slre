@@ -1,19 +1,15 @@
 <template>
   <div class="home">
-    <h1 class="main">VANORAMA</h1>
+    <header class="main-header">
+      <h1>VANORAMA</h1>
+      <p>Un van et puis la route</p>
+    </header>
     <div
       v-if="loading"
       class="loading">
       <p>chargement...</p>
     </div>
     <section v-else>
-      <!-- <div>
-        <h2>Posts</h2>
-        <post
-          v-for="post in posts"
-          :key="post.id"
-          :title="post.title.rendered"/>
-      </div> -->
       <div>
         <photorama
           v-for="photorama in photoramas"
@@ -32,14 +28,13 @@
 </template>
 
 <script>
-import { API, ACF_API, POSTS, PHOTORAMAS, TEST } from '@/config'
-import Post from '@/components/Post'
+import { API, POSTS, PHOTORAMAS } from '@/config'
 import Photorama from '@/components/Photorama'
 
 export default {
   name: 'Home',
 
-  components: { Post, Photorama },
+  components: { Photorama },
 
   data () {
     return {
@@ -57,7 +52,7 @@ export default {
   },
 
   mounted () {
-    this.fetchPosts()
+    // this.fetchPosts()
     this.fetchPhotoramas()
   },
 
@@ -73,6 +68,7 @@ export default {
         this.posts = await posts.json()
         this.loading = false
       } catch (e) {
+        console.error(e)
         this.error = e
       }
     },
@@ -88,6 +84,7 @@ export default {
         this.photoramas = await photoramas.json()
         this.loading = false
       } catch (e) {
+        console.error(e)
         this.error = e
       }
     }
@@ -96,10 +93,23 @@ export default {
 </script>
 
 <style lang="scss">
-.main{
-  font-family: 'Montserrat', sans-serif;
-  text-align: center;
-  font-size: 48px;
-  padding: 24px 0 36px;
+@import "~@/assets/styles/variables";
+.home{
+  .main-header{
+    text-align: center;
+    font-family: $montserrat;
+    padding: 24px 0 36px;
+
+    h1{
+      font-family: $montserrat;
+      letter-spacing: -0.012em;
+      font-size: 48px;
+      font-weight: 900;
+    }
+
+    p{
+      font-size: 12px;
+    }
+  }
 }
 </style>

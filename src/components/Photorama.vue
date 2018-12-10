@@ -26,6 +26,7 @@
 
 <script>
 import dayjs from 'dayjs'
+import fr from 'dayjs/locale/fr'
 
 export default {
   name: 'Photorama',
@@ -38,28 +39,41 @@ export default {
 
   computed: {
     dateFormated () {
-      return dayjs(this.dateGmt).format('le D MMMM YYYY')
-      // return dayjs(this.dateGmt).locale('es').format()
+      // return dayjs(this.dateGmt).format('D MMMM YYYY')
+      let day = dayjs(this.dateGmt).locale(fr)
+      return day.format('D MMMM YYYY')
     }
   }
 }
 </script>
 
 <style lang="scss">
+@import "~@/assets/styles/variables";
+
 .photorama{
   header{
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     margin-left: 24px;
+    border-bottom: 2px solid $color_text_main;
+  }
+
+  .photo + .photo{
+    margin-top: 12px;
   }
   .title{
     // text-transform: uppercase;
     font-size: 24px;
+    margin-bottom: 2px;
   }
   .date{
-    font-size: 12px;
-    // text-transform: uppercase;
+    font-size: 11px;
+    text-transform: lowercase;
     font-family: 'Inconsolata', sans-serif;
-    font-weight: 600;
+    font-weight: 700;
+    background: $color_text_main;
+    color: white;
+    padding: 2px 36px 2px 6px;
+    display: inline-block;
   }
   .photo-title{
     margin-top: 6px;
@@ -71,6 +85,10 @@ export default {
     margin-top: 3px;
     margin-left: 12px;
     font-size: 14px;
+  }
+
+  & + &{
+    margin-top: 24px;
   }
 }
 </style>
