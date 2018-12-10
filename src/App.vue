@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import 'reset-css'
 import Home from './pages/Home.vue'
 
 export default {
@@ -16,12 +17,20 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,900|Inconsolata:400,700');
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  font-weight: 400;
+  padding-bottom: 12px;
+}
+img{
+  max-width: 100%;
+  display: block;
+}
+h1, h2, h3, h4, h5{
+  font-family: 'Inconsolata', sans-serif;
 }
 </style>
