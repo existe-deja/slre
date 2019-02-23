@@ -2,7 +2,6 @@
   <div class="home">
     <header class="main-header">
       <h1>VANORAMA</h1>
-      <p>Un van et puis la route</p>
     </header>
     <div
       v-if="loading"
@@ -10,6 +9,9 @@
       <p>chargement...</p>
     </div>
     <section v-else>
+      <div>
+        <mail-subscription/>
+      </div>
       <div>
         <photorama
           v-for="photorama in photoramas"
@@ -29,12 +31,13 @@
 
 <script>
 import { API, POSTS, PHOTORAMAS } from '@/config'
+import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
 
 export default {
   name: 'Home',
 
-  components: { Photorama },
+  components: { Photorama, MailSubscription },
 
   data () {
     return {
@@ -95,6 +98,7 @@ export default {
 <style lang="scss">
 @import "~@/assets/styles/variables";
 .home{
+  min-width: 300px;
   .main-header{
     text-align: center;
     font-family: $montserrat;
@@ -103,12 +107,29 @@ export default {
     h1{
       font-family: $montserrat;
       letter-spacing: -0.012em;
-      font-size: 48px;
+      font-size: 12px * 3.5;
       font-weight: 900;
     }
 
     p{
       font-size: 12px;
+    }
+  }
+  .loading{
+    text-align: center;
+  }
+}
+@media only screen and (min-width: 480px) {
+  .home{
+    .main-header h1 {
+      font-size: 12px * 6;
+    }
+  }
+}
+@media only screen and (min-width: 620px) {
+  .home{
+    .main-header h1 {
+      font-size: 12px * 8;
     }
   }
 }
