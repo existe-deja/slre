@@ -19,13 +19,14 @@
           v-for="photo in photos.slice(1)"
           :key="photo.id"
           class="photo">
-            <img
-            :src="photo.url" alt="">
-            <p
+            <div
+              :style='{ backgroundImage: `url(${photo.url})`, backgroundSize: `cover` }'
+              class="test"/>
+            <!-- <p
             v-if="photo.caption.length > 0"
             class="caption">
             {{ photo.caption }}
-          </p>
+          </p> -->
         </div>
       </div>
     </section>
@@ -104,6 +105,17 @@ export default {
   .cover{
     margin-bottom: 12px;
   }
+  .photo{
+    width: 100%;
+  }
+  .cover.photo img{
+    margin: auto;
+  }
+  .test{
+    min-height: 250px;
+    background-size: cover;
+    background-position: center;
+  }
   .thumbs{
     .photo + .photo{
       margin-top: 12px;
@@ -113,10 +125,14 @@ export default {
 @media only screen and (min-width: 480px) {
   .photorama {
     .thumbs{
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-column-gap: 12px;
+      grid-row-gap: 14px;
+      justify-items: center;
+
       .photo + .photo{
-        margin-top: 0;
-        margin-left: 12px;
+        margin-top: 0px;
       }
     }
   }
