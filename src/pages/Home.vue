@@ -12,12 +12,12 @@
       <div>
         <mail-subscription/>
       </div>
-      <div>
+      <div class="wrapper">
         <photorama
           v-for="photorama in photoramas"
           :key="photorama.id"
           :title="photorama.title.rendered"
-          :date-gmt="photorama.modified_gmt"
+          :date-gmt="photorama.acf.date_display || '2010-01-01'"
           :photos="photorama.acf.photos"/>
       </div>
     </section>
@@ -114,6 +114,13 @@ export default {
     p{
       font-size: 12px;
     }
+  }
+  >section{
+    padding-bottom: 48px;
+  }
+  .wrapper{
+    max-width: 1086px;
+    margin: auto;
   }
   .loading{
     text-align: center;

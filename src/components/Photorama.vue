@@ -8,11 +8,11 @@
       <div class="cover photo">
         <img
         :src="photos[0].url" alt="">
-        <p
+        <!-- <p
         v-if="photos[0].caption.length > 0"
         class="caption">
           {{ photos[0].caption }}
-        </p>
+        </p> -->
       </div>
       <div class="thumbs">
         <div
@@ -35,7 +35,9 @@
 
 <script>
 import dayjs from 'dayjs'
+// import customParseFormat from 'dayjs/plugin/customParseFormat'
 import fr from 'dayjs/locale/fr'
+// dayjs.extend(customParseFormat)
 
 export default {
   name: 'Photorama',
@@ -48,10 +50,12 @@ export default {
 
   computed: {
     dateFormated () {
-      // return dayjs(this.dateGmt).format('D MMMM YYYY')
       let day = dayjs(this.dateGmt).locale(fr)
       return day.format('D MMMM YYYY')
     }
+  },
+
+  created () {
   }
 }
 </script>
@@ -69,7 +73,7 @@ export default {
   }
 
   & + &{
-    margin-top: 24px;
+    margin-top: 48px;
   }
 
   .title{
@@ -78,7 +82,7 @@ export default {
     margin-bottom: 2px;
   }
   .date{
-    font-size: 11px;
+    font-size: 12px;
     text-transform: lowercase;
     font-family: 'Inconsolata', sans-serif;
     font-weight: 700;
@@ -95,15 +99,8 @@ export default {
   }
   .caption{
     margin-top: 3px;
-    margin-left: 12px;
+    margin-left: 0px;
     font-size: 14px;
-  }
-  .wrapper{
-    margin: auto;
-    max-width: 1086px;
-  }
-  .cover{
-    margin-bottom: 12px;
   }
   .photo{
     width: 100%;
@@ -112,7 +109,7 @@ export default {
     margin: auto;
   }
   .test{
-    min-height: 250px;
+    min-height: 265.5px;
     background-size: cover;
     background-position: center;
   }
@@ -127,8 +124,9 @@ export default {
     .thumbs{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      grid-column-gap: 12px;
-      grid-row-gap: 14px;
+      margin-top: $main_photo_gap;
+      grid-column-gap: $main_photo_gap;
+      grid-row-gap: $main_photo_gap;
       justify-items: center;
 
       .photo + .photo{
