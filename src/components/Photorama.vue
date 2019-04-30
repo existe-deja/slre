@@ -114,8 +114,10 @@ export default {
     background-position: center;
   }
   .thumbs{
+    margin-top: $main_photo_gap / 2;
+
     .photo + .photo{
-      margin-top: 12px;
+      margin-top: $main_photo_gap / 2;
     }
   }
 }
@@ -124,7 +126,6 @@ export default {
     .thumbs{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      margin-top: $main_photo_gap;
       grid-column-gap: $main_photo_gap;
       grid-row-gap: $main_photo_gap;
       justify-items: center;

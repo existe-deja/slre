@@ -3,12 +3,7 @@
     <header class="main-header">
       <h1>VANORAMA</h1>
     </header>
-    <div
-      v-if="loading"
-      class="loading">
-      <p>chargement...</p>
-    </div>
-    <section v-else>
+    <section>
       <div>
         <mail-subscription/>
       </div>
@@ -19,6 +14,16 @@
           :title="photorama.title.rendered"
           :date-gmt="photorama.acf.date_display || '2010-01-01'"
           :photos="photorama.acf.photos"/>
+        <div
+          class="load-more">
+          <button
+            v-if="!fullyLoaded"
+            class="loader"
+            type="button"
+            :disabled="loading"
+            @click="loadPhotoramas">Encore</button>
+          <p v-else>Finito !</p>
+        </div>
       </div>
     </section>
     <div
@@ -30,7 +35,7 @@
 </template>
 
 <script>
-import { API, POSTS, PHOTORAMAS } from '@/config'
+import { mapState, mapActions } from 'vuex'
 import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
 
@@ -41,56 +46,22 @@ export default {
 
   data () {
     return {
-      posts: [],
-      photoramas: [],
-      error: false,
-      loading: true
+      error: false
     }
   },
 
   computed: {
-    url () {
-      return `${API}${POSTS}`
-    }
+    ...mapState(['loading', 'fullyLoaded', 'photoramas'])
   },
 
   mounted () {
-    // this.fetchPosts()
-    this.fetchPhotoramas()
+    this.loadPhotoramas()
   },
 
   methods: {
-    async fetchPosts () {
-      try {
-        const posts = await fetch(`${API}${POSTS}`, {
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          }
-        })
-        this.posts = await posts.json()
-        this.loading = false
-      } catch (e) {
-        console.error(e)
-        this.error = e
-      }
-    },
-
-    async fetchPhotoramas () {
-      try {
-        const photoramas = await fetch(`${API}${PHOTORAMAS}`, {
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          }
-        })
-        this.photoramas = await photoramas.json()
-        this.loading = false
-      } catch (e) {
-        console.error(e)
-        this.error = e
-      }
-    }
+    ...mapActions([
+      'loadPhotoramas'
+    ])
   }
 }
 </script>
@@ -124,6 +95,30 @@ export default {
   }
   .loading{
     text-align: center;
+  }
+  .load-more {
+    margin: 20px 0;
+    text-align: center;
+    button{
+      position: relative;
+      display: block;
+      margin: auto;
+      background: #fff;
+      border: 1px solid $color_text_date;
+      color: $color_text_main;
+      padding: 10px 20px 10px 20px;
+      font-size: 1em;
+      border-radius: 3px;
+      cursor: pointer;
+      outline: none;
+
+      &[disabled]{
+        opacity: 0
+      }
+    }
+    p{
+      padding: 12px 0;
+    }
   }
 }
 @media only screen and (min-width: 480px) {
