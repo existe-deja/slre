@@ -7,7 +7,9 @@
     <section class="wrapper">
       <div class="cover photo">
         <img
-        :src="photos[0].url" alt="">
+        :src="photos[0].url"
+        @click="handleClick(0)"
+        alt="">
         <!-- <p
         v-if="photos[0].caption.length > 0"
         class="caption">
@@ -16,17 +18,11 @@
       </div>
       <div class="thumbs">
         <div
-          v-for="photo in photos.slice(1)"
+          v-for="(photo, i) in photos.slice(1)"
           :key="photo.id"
+          :style='{ backgroundImage: `url(${photo.url})`, backgroundSize: `cover` }'
+          @click="handleClick(i + 1)"
           class="photo">
-            <div
-              :style='{ backgroundImage: `url(${photo.url})`, backgroundSize: `cover` }'
-              class="test"/>
-            <!-- <p
-            v-if="photo.caption.length > 0"
-            class="caption">
-            {{ photo.caption }}
-          </p> -->
         </div>
       </div>
     </section>
@@ -35,14 +31,15 @@
 
 <script>
 import dayjs from 'dayjs'
-// import customParseFormat from 'dayjs/plugin/customParseFormat'
 import fr from 'dayjs/locale/fr'
-// dayjs.extend(customParseFormat)
+import { mapMutations } from 'vuex'
+import { SET_FULLSCREEN } from '@/config'
 
 export default {
   name: 'Photorama',
 
   props: {
+    index: { type: Number, required: true },
     title: { type: String, required: true },
     photos: { type: Array, required: true },
     dateGmt: { type: String, required: true }
@@ -55,7 +52,14 @@ export default {
     }
   },
 
-  created () {
+  methods: {
+    ...mapMutations({
+      setFullscreen: SET_FULLSCREEN
+    }),
+
+    handleClick (i) {
+      this.setFullscreen({photoramaIndex: this.index, photoIndex: i})
+    }
   }
 }
 </script>
@@ -108,10 +112,15 @@ export default {
   .cover.photo img{
     margin: auto;
   }
-  .test{
+  .photo{
+    cursor: pointer;
     min-height: 265.5px;
     background-size: cover;
     background-position: center;
+    &.cover{
+      min-height: auto;
+    }
+
   }
   .thumbs{
     margin-top: $main_photo_gap / 2;
@@ -126,6 +135,7 @@ export default {
     .thumbs{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
+      margin-top: $main_photo_gap;
       grid-column-gap: $main_photo_gap;
       grid-row-gap: $main_photo_gap;
       justify-items: center;

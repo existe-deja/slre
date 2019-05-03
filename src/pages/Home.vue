@@ -7,10 +7,17 @@
       <div>
         <mail-subscription/>
       </div>
+
+      <div>
+        <full-screen
+          v-if="isFullScreen && !isItAMobile"/>
+      </div>
+
       <div class="wrapper">
         <photorama
-          v-for="photorama in photoramas"
+          v-for="(photorama, i) in photoramas"
           :key="photorama.id"
+          :index="i"
           :title="photorama.title.rendered"
           :date-gmt="photorama.acf.date_display || '2010-01-01'"
           :photos="photorama.acf.photos"/>
@@ -35,14 +42,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
+import FullScreen from '@/components/FullScreen'
 
 export default {
   name: 'Home',
 
-  components: { Photorama, MailSubscription },
+  components: { Photorama, MailSubscription, FullScreen },
 
   data () {
     return {
@@ -51,16 +59,27 @@ export default {
   },
 
   computed: {
-    ...mapState(['loading', 'fullyLoaded', 'photoramas'])
+    ...mapState({
+      loading: state => state.loading,
+      fullyLoaded: state => state.fullyLoaded,
+      photoramas: state => state.photoramas,
+      isFullScreen: state => state.isFullScreen,
+      isItAMobile: state => state.isItAMobile
+    })
   },
 
   mounted () {
+    this.isAMobile(window.mobilecheck())
     this.loadPhotoramas()
   },
 
   methods: {
     ...mapActions([
       'loadPhotoramas'
+    ]),
+
+    ...mapMutations([
+      'isAMobile'
     ])
   }
 }
