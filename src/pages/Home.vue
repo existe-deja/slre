@@ -20,7 +20,8 @@
           :index="i"
           :title="photorama.title.rendered"
           :date-gmt="photorama.acf.date_display || '2010-01-01'"
-          :photos="photorama.acf.photos"/>
+          :photos="photorama.acf.photos"
+          :autoplay="!loading"/>
         <div
           class="load-more">
           <button
@@ -46,6 +47,9 @@ import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
 import FullScreen from '@/components/FullScreen'
+import { CSSPlugin, TextPlugin } from 'gsap/all'
+
+const plugins = [ CSSPlugin, TextPlugin ] // fucking gsap shit https://greensock.com/docs/NPMUsage
 
 export default {
   name: 'Home',
@@ -109,7 +113,7 @@ export default {
     padding-bottom: 48px;
   }
   .wrapper{
-    max-width: 1086px;
+    max-width: $main-width;
     margin: auto;
   }
   .loading{
@@ -143,14 +147,14 @@ export default {
 @media only screen and (min-width: 480px) {
   .home{
     .main-header h1 {
-      font-size: 12px * 6;
+      font-size: 12px * 4;
     }
   }
 }
 @media only screen and (min-width: 620px) {
   .home{
     .main-header h1 {
-      font-size: 12px * 8;
+      font-size: 12px * 6;
     }
   }
 }

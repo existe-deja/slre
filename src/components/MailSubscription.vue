@@ -83,6 +83,7 @@ export default {
 .mail-subscription{
   margin-bottom: 36px;
   .show-control{
+    padding: 0 $main_photo_gap;
     button{
       position: relative;
       display: block;

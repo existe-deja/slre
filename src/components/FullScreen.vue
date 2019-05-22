@@ -13,8 +13,8 @@
           type="button"
           class="controls left"></button>
           <div class="text">
-            <h2>{{ fullScreenObject.title }}</h2>
-            <p>{{ fullScreenObject.photo.caption }}</p>
+            <h2 ref="twtitle"/>
+            <p ref="twcaption"/>
           </div>
           <button
           @click.stop.prevent="navigateFullscreen(1)"
@@ -24,9 +24,15 @@
       </div>
     <div class="wrapper-view">
       <div class="view">
-        <img
-          :src="fullScreenObject.photo.url"
-          alt="">
+        <transition
+          name="fade"
+          @after-leave="leave"
+          appear>
+          <img
+            :src="tweenSrc"
+            v-show="fade"
+            alt="">
+        </transition>
       </div>
     </div>
   </div>
@@ -35,9 +41,19 @@
 <script>
 import { NAVIGATE_FULLSCREEN, RESET_FULLSCREEN } from '@/config'
 import { mapGetters, mapMutations } from 'vuex'
+import { TimelineLite, Power2 } from 'gsap/all'
 
 export default {
   name: 'FullScreen',
+
+  data () {
+    return {
+      fade: true,
+      tweenSrc: null,
+      titleTimeline: null,
+      captionTimeline: null
+    }
+  },
 
   computed: {
     ...mapGetters({
@@ -47,19 +63,51 @@ export default {
 
   mounted () {
     this.$el.focus()
+    this.titleTimeline = new TimelineLite()
+    this.captionTimeline = new TimelineLite()
+    this.tweenSrc = this.fullScreenObject.photo.url
+    this.tweenLetters(this.titleTimeline, this.$refs.twtitle, this.fullScreenObject.title)
+    this.tweenLetters(this.captionTimeline, this.$refs.twcaption, this.fullScreenObject.photo.caption)
   },
 
+  watch: {
+    'fullScreenObject.title' (value) {
+      this.tweenLetters(this.titleTimeline, this.$refs.twtitle, value)
+    },
+
+    'fullScreenObject.photo.caption' (value) {
+      this.tweenLetters(this.captionTimeline, this.$refs.twcaption, value)
+    },
+
+    'fullScreenObject.photo.url' () {
+      this.fade = false
+    }
+  },
 
   methods: {
     ...mapMutations({
       navigateFullscreen: NAVIGATE_FULLSCREEN,
       resetFullscreen: RESET_FULLSCREEN
-    })
+    }),
+
+    tweenLetters (tl, elem, value) {
+      const time = value === '' ? 0.2 : 1.3
+      tl.clear()
+        .to(elem, time, {text: value, ease: Power2.easeInOut})
+    },
+
+    leave () {
+      this.tweenSrc = this.fullScreenObject.photo.url
+      this.fade = true
+    }
   }
 }
 </script>
 
 <style lang="scss">
+@import "~@/assets/styles/variables";
+@import "~@/assets/styles/transitions";
+
 .fullscreen{
   z-index: 10;
   background: -webkit-radial-gradient(circle at center,rgba(0,0,0,.8),rgba(0,0,0,.94));
@@ -75,7 +123,7 @@ export default {
 
   .wrapper-header{
     position: relative;
-    max-width: 1086px;
+    max-width: $main-width;
     margin: auto;
   }
 
@@ -83,9 +131,10 @@ export default {
     display: grid;
     grid-template-columns: 40px 1fr 40px;
     width: 100%;
-    grid-column-gap: 24px;
+    grid-column-gap: 2 * $main_photo_gap;
     align-items: center;
-    padding: 12px 6px;
+    padding: $main_photo_gap $main_photo_gap / 2;
+    box-sizing: border-box;
 
     button.controls{
       cursor: pointer;
@@ -123,7 +172,7 @@ export default {
       }
 
       h2{
-        padding: 6px 12px;
+        padding: $main_photo_gap / 2 $main_photo_gap;
         font-size: 24px;
       }
       p {
@@ -134,10 +183,10 @@ export default {
   }
 
   .wrapper-view{
-    max-height: calc(100% - 84px - 12px);
+    max-height: calc(100% - 84px - #{$main_photo_gap});
     height: 100%;
     position: relative;
-    max-width: 1086px;
+    max-width: $main-width;
     margin: auto;
   }
 
@@ -158,7 +207,7 @@ export default {
       margin: 3 * 12px auto 0;
     }
     .wrapper-view{
-      max-height: calc(100% - 84px - 12px - 3 * 12px);
+      max-height: calc(100% - 84px - #{$main_photo_gap} - 3 * #{$main_photo_gap});
     }
   }
 }
