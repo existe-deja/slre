@@ -60,7 +60,6 @@ export default {
     autoplay (value) {
       if (value && !this.played) {
         setTimeout(_ => {
-          console.log('autoplay', this.index);
           this.isScrolledIntoView()
         }, 0)
       }
@@ -108,7 +107,11 @@ export default {
       .call(() => {
         this.played = true
       })
-    window.addEventListener('scroll', this.isScrolledIntoView)
+    if (this.autoplay) {
+      this.isScrolledIntoView()
+    } else {
+      window.addEventListener('scroll', this.isScrolledIntoView)
+    }
   },
 
   methods: {
