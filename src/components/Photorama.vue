@@ -57,7 +57,7 @@ export default {
 
   watch: {
     autoplay (value) {
-      if (value) this.isScrolledIntoView()
+      if (value) this.$nextTick(_ => this.isScrolledIntoView())
     }
   },
 
