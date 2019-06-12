@@ -4,6 +4,11 @@
       <h5 ref="date" class="date">{{ dateFormated }}</h5>
       <h3 ref="title" class="title"/>
     </header>
+    <div
+      class="text"
+      v-if="text.length > 0"
+      v-html="text">
+    </div>
     <section class="wrapper">
       <div class="cover photo">
         <img
@@ -22,7 +27,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import dayjs from 'dayjs'
 import fr from 'dayjs/locale/fr'
@@ -44,6 +48,7 @@ export default {
   props: {
     index: { type: Number, required: true },
     title: { type: String, required: true },
+    text: { type: String, required: true },
     photos: { type: Array, required: true },
     dateGmt: { type: String, required: true },
     autoplay: { type: Boolean, required: true }
@@ -97,12 +102,18 @@ export default {
         '-=0.15'
       )
       .staggerFromTo(
-        this.$el.querySelectorAll('.photo'),
+        this.$el.querySelectorAll('.text p'),
         0.750,
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, ease: Power2.easeInOut },
-        0.2,
-        0.75
+        0.2
+      )
+      .staggerFromTo(
+        this.$el.querySelectorAll('.photo'),
+        0.500,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, ease: Power2.easeInOut },
+        '-=0.2'
       )
       .call(() => {
         this.played = true
@@ -180,12 +191,27 @@ export default {
     font-size: 12px;
     line-height: 22px;
     text-transform: lowercase;
-    font-family: 'Inconsolata', sans-serif;
+    font-family: $inconsolata;
     font-weight: 700;
     background: $color_text_main;
     color: white;
     padding: 0 36px 0 6px;
     display: inline-block;
+  }
+  .text{
+    margin-top: 1.5em;
+    margin-bottom: 2em;
+    margin-left: 24px;
+    p{
+      margin-top: 0.75em;
+      line-height: 1.5;
+      &:first-child{
+        text-indent: 24px;
+      }
+      strong{
+        font-weight: 900;
+      }
+    }
   }
   .photo-title{
     margin-top: 6px;

@@ -19,6 +19,7 @@
           :key="photorama.id"
           :index="i"
           :title="photorama.title.rendered"
+          :text="photorama.content.rendered"
           :date-gmt="photorama.acf.date_display || '2010-01-01'"
           :photos="photorama.acf.photos"
           :autoplay="!loading && i % PER_PAGE === 0"/>
