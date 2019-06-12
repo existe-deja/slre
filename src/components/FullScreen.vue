@@ -65,7 +65,7 @@ export default {
     this.$el.focus()
     this.titleTimeline = new TimelineLite()
     this.captionTimeline = new TimelineLite()
-    this.tweenSrc = this.fullScreenObject.photo.url
+    this.tweenSrc = this.fullScreenObject.photo.sizes.large
     this.tweenLetters(this.titleTimeline, this.$refs.twtitle, this.fullScreenObject.title)
     this.tweenLetters(this.captionTimeline, this.$refs.twcaption, this.fullScreenObject.photo.caption)
   },

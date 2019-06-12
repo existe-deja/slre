@@ -7,7 +7,7 @@
     <section class="wrapper">
       <div class="cover photo">
         <img
-        :src="photos[0].url"
+        :src="photos[0].sizes.large"
         @click="handleClick(0)"
         alt="">
       </div>
@@ -15,7 +15,7 @@
          <div
            v-for="(photo, i) in photos.slice(1)"
            :key="photo.id"
-           :style='{ backgroundImage: `url(${photo.url})`, backgroundSize: `cover` }'
+           :style='{ backgroundImage: `url(${photo.sizes.medium_large})`, backgroundSize: `cover` }'
            @click="handleClick(i + 1)"
            class="photo"/>
       </div>
