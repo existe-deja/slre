@@ -36,7 +36,8 @@ export default {
 
   data () {
     return {
-      tl:  null
+      tl:  null,
+      played: false
     }
   },
 
@@ -57,7 +58,12 @@ export default {
 
   watch: {
     autoplay (value) {
-      if (value) this.$nextTick(_ => this.isScrolledIntoView())
+      if (value && !this.played) {
+        setTimeout(_ => {
+          console.log('autoplay', this.index);
+          this.isScrolledIntoView()
+        }, 0)
+      }
     }
   },
 
@@ -99,6 +105,9 @@ export default {
         0.2,
         0.75
       )
+      .call(() => {
+        this.played = true
+      })
     window.addEventListener('scroll', this.isScrolledIntoView)
   },
 
@@ -118,7 +127,7 @@ export default {
 
       // Partially visible elements return true:
       var isVisible = elemTop < window.innerHeight && elemBottom >= 0;
-      if (isVisible) {
+      if (isVisible && !this.played) {
         setTimeout(_ => {
           this.tl.play()
         }, 350)

@@ -21,7 +21,7 @@
           :title="photorama.title.rendered"
           :date-gmt="photorama.acf.date_display || '2010-01-01'"
           :photos="photorama.acf.photos"
-          :autoplay="!loading"/>
+          :autoplay="!loading && i % PER_PAGE === 0"/>
         <div
           class="load-more">
           <button
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { PER_PAGE } from '@/config'
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
@@ -58,7 +59,8 @@ export default {
 
   data () {
     return {
-      error: false
+      error: false,
+      PER_PAGE: PER_PAGE
     }
   },
 
