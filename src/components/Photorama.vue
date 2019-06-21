@@ -17,12 +17,19 @@
         alt="">
       </div>
       <div class="thumbs">
-         <div
+        <img
+          :src="photo.sizes.medium_large"
+          v-for="(photo, i) in photos.slice(1)"
+          :key="photo.id"
+          @click="handleClick(i + 1)"
+          class="photo"
+          >
+         <!-- <div
            v-for="(photo, i) in photos.slice(1)"
            :key="photo.id"
            :style='{ backgroundImage: `url(${photo.sizes.medium_large})`, backgroundSize: `cover` }'
            @click="handleClick(i + 1)"
-           class="photo"/>
+           class="photo"/> -->
       </div>
     </section>
   </div>
@@ -232,9 +239,7 @@ export default {
   }
   .photo{
     cursor: pointer;
-    min-height: 265.5px;
-    background-size: cover;
-    background-position: center;
+    box-sizing: border-box;
     &.cover{
       min-height: auto;
     }
@@ -251,15 +256,12 @@ export default {
 @media only screen and (min-width: 480px) {
   .photorama {
     .thumbs{
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      margin-top: $main_photo_gap;
-      grid-column-gap: $main_photo_gap;
-      grid-row-gap: $main_photo_gap;
-      justify-items: center;
+      column-width: 250px;
+      column-gap: $main_photo_gap;
+      column-fill: balance;
 
       .photo + .photo{
-        margin-top: 0px;
+        margin-top: $main_photo_gap;
       }
     }
   }

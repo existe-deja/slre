@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <header class="main-header">
-      <h1>VANORAMA</h1>
+    <header class="main-header wrapper">
+      <h1 :class="{loading: loading}">VANORAMA</h1>
     </header>
     <section>
       <div>
@@ -94,6 +94,8 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/styles/variables";
+@import "~@/assets/styles/transitions";
+
 .home{
   min-width: 300px;
   .main-header{
@@ -106,6 +108,22 @@ export default {
       letter-spacing: -0.012em;
       font-size: 12px * 3.5;
       font-weight: 900;
+      position: relative;
+
+      &:before{
+        content: "";
+        display: block;
+        height: 100%;
+        width: 100%;
+        border-left: 30px solid white;
+        left: 0;
+        top: 0;
+        position: absolute;
+      }
+
+      &.loading:before{
+        animation: 'infiniteSliding' 2750ms ease infinite;
+      }
     }
 
     p{

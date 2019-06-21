@@ -2,36 +2,37 @@
   <div
     @click.stop.prevent="resetFullscreen()"
     @keyup.esc="resetFullscreen()"
-    @keyup.left="navigateFullscreen(-1)"
-    @keyup.right="navigateFullscreen(1)"
+    @keyup.left="navigate(-1)"
+    @keyup.right="navigate(1)"
     tabindex="0"
     class="fullscreen">
       <div class="wrapper-header">
         <header>
           <button
-          @click.stop.prevent="navigateFullscreen(-1)"
+          @click.stop.prevent="navigate(-1)"
           type="button"
           class="controls left"></button>
           <div class="text">
-            <h2 ref="twtitle"/>
-            <p ref="twcaption"/>
+            <h2>{{ fullScreenObject.title }}</h2>
+            <p>{{ fullScreenObject.photo.caption }}</p>
           </div>
           <button
-          @click.stop.prevent="navigateFullscreen(1)"
+          @click.stop.prevent="navigate(1)"
           type="button"
           class="controls right"></button>
         </header>
       </div>
     <div class="wrapper-view">
       <div class="view">
-        <transition
-          name="fade"
-          @after-leave="leave"
-          appear>
+        <transition name="fade" mode="out-in">
           <img
-            :src="tweenSrc"
-            v-show="fade"
-            alt="">
+            v-if="preloading"
+            :key="fullScreenObject.photo.sizes.thumbnail"
+            class="preload"
+            :src="fullScreenObject.photo.sizes.thumbnail">
+          <img
+            v-else
+            :src="loadedSrc">
         </transition>
       </div>
     </div>
@@ -48,10 +49,8 @@ export default {
 
   data () {
     return {
-      fade: true,
-      tweenSrc: null,
-      titleTimeline: null,
-      captionTimeline: null
+      preloading: true,
+      loadedSrc: null
     }
   },
 
@@ -61,27 +60,15 @@ export default {
     })
   },
 
-  mounted () {
-    this.$el.focus()
-    this.titleTimeline = new TimelineLite()
-    this.captionTimeline = new TimelineLite()
-    this.tweenSrc = this.fullScreenObject.photo.sizes.large
-    this.tweenLetters(this.titleTimeline, this.$refs.twtitle, this.fullScreenObject.title)
-    this.tweenLetters(this.captionTimeline, this.$refs.twcaption, this.fullScreenObject.photo.caption)
+  watch: {
+    preloading (val) {
+      console.log('preloading', val);
+    }
   },
 
-  watch: {
-    'fullScreenObject.title' (value) {
-      this.tweenLetters(this.titleTimeline, this.$refs.twtitle, value)
-    },
-
-    'fullScreenObject.photo.caption' (value) {
-      this.tweenLetters(this.captionTimeline, this.$refs.twcaption, value)
-    },
-
-    'fullScreenObject.photo.url' () {
-      this.fade = false
-    }
+  mounted () {
+    this.$el.focus()
+    this.preloadingFunc()
   },
 
   methods: {
@@ -90,15 +77,35 @@ export default {
       resetFullscreen: RESET_FULLSCREEN
     }),
 
-    tweenLetters (tl, elem, value) {
-      const time = value === '' ? 0.2 : 1.3
-      tl.clear()
-        .to(elem, time, {text: value, ease: Power2.easeInOut})
+    navigate (direction) {
+      this.navigateFullscreen(direction)
+      this.preloadingFunc()
     },
 
-    leave () {
-      this.tweenSrc = this.fullScreenObject.photo.url
-      this.fade = true
+    preloadingFunc () {
+      this.preloading = true
+
+      let img = new Image()
+      console.log('src set');
+      img.src = this.fullScreenObject.photo.sizes.large
+
+      if (img.complete) {
+        this.removePreloading()
+      } else {
+        img.addEventListener('load', _ => {
+          this.removePreloading()
+        })
+        img.addEventListener('error', function() {
+            console.log('error')
+        })
+      }
+    },
+
+    removePreloading () {
+      console.log('complete', this.fullScreenObject.photo.sizes.large);
+
+      this.preloading = false
+      this.loadedSrc = this.fullScreenObject.photo.sizes.large
     }
   }
 }
@@ -197,6 +204,13 @@ export default {
     img{
       max-height: 100%;
       margin: auto;
+    }
+    .preload{
+      width: 100%;
+      height: 100%;
+      filter: blur(50px);
+      /* this is needed so Safari keeps sharp edges */
+      transform: scale(1);
     }
   }
 }
