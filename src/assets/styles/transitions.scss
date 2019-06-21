@@ -2,7 +2,6 @@
 /* durations and timing functions.              */
 .fade-enter-active {
   transition: opacity .350s ease;
-  position: absolute;
 }
 .fade-leave-active {
   transition: opacity .350ms ease;
