@@ -17,7 +17,7 @@ export default new Vuex.Store({
     fullyLoaded: false, // if all of the photoramas are loaded
     isFullScreen: false, // if a fullscreen action is asked
     fullscreenPhotoramaIndex: 0, // the index of the current fullscreened photorama
-    fullscreenPhotoIndex: 0, // the index of the current fullscreened photo of the photorama
+    fullscreenPhotoIndex: 0, // the index of the current fullscreened photo of the current photorama
     photoramas: [] // the photoramas
   },
 
@@ -28,6 +28,10 @@ export default new Vuex.Store({
         title: state.photoramas[state.fullscreenPhotoramaIndex].title.rendered,
         photo: state.photoramas[state.fullscreenPhotoramaIndex].acf.photos[state.fullscreenPhotoIndex]
       }
+    },
+
+    globalPhotoIndex (state) {
+      return `${state.fullscreenPhotoramaIndex}_${state.fullscreenPhotoIndex}`
     }
   },
 
@@ -39,7 +43,7 @@ export default new Vuex.Store({
         state.photoramas.length,
         content => commit('populate', content),
         e => {
-          console.error(e)
+          console.error(e) // eslint-disable-line
         }
       )
 

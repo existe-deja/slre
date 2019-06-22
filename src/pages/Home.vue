@@ -45,12 +45,13 @@
 
 <script>
 import { PER_PAGE } from '@/config'
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
 import FullScreen from '@/components/FullScreen'
 import { CSSPlugin, TextPlugin } from 'gsap/all'
 
+// eslint-disable-next-line
 const plugins = [ CSSPlugin, TextPlugin ] // fucking gsap shit https://greensock.com/docs/NPMUsage
 
 export default {
@@ -114,7 +115,6 @@ export default {
         content: "";
         display: block;
         height: 100%;
-        width: 100%;
         border-left: 30px solid white;
         left: 0;
         top: 0;

@@ -24,12 +24,6 @@
           @click="handleClick(i + 1)"
           class="photo"
           >
-         <!-- <div
-           v-for="(photo, i) in photos.slice(1)"
-           :key="photo.id"
-           :style='{ backgroundImage: `url(${photo.sizes.medium_large})`, backgroundSize: `cover` }'
-           @click="handleClick(i + 1)"
-           class="photo"/> -->
       </div>
     </section>
   </div>
@@ -39,7 +33,7 @@ import dayjs from 'dayjs'
 import fr from 'dayjs/locale/fr'
 import { mapMutations } from 'vuex'
 import { SET_FULLSCREEN } from '@/config'
-import { TimelineLite, Power2, Power0 } from 'gsap/all'
+import { TimelineLite, Power2 } from 'gsap/all'
 
 /* eslint-disable */
 export default {
@@ -259,10 +253,6 @@ export default {
       column-width: 250px;
       column-gap: $main_photo_gap;
       column-fill: balance;
-
-      .photo + .photo{
-        margin-top: $main_photo_gap;
-      }
     }
   }
 }

@@ -1,21 +1,37 @@
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
-.fade-enter-active {
-  transition: opacity .350s ease;
-}
-.fade-leave-active {
-  transition: opacity .350ms ease;
-}
-
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-
+/* loading effect */
 @keyframes infiniteSliding{
   0%{
     transform: translateX(-100%);
   }
   100%{
     transform: translateX(100%);
+  }
+}
+
+/* main fade transition */
+.fade-enter-active {
+  transition: opacity 350ms ease;
+}
+.fade-leave-active {
+  transition: opacity 50ms ease;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+/* special fade for preload image */
+.fade-preload-enter-active {
+  animation: fade-preloading 150ms reverse;
+}
+.fade-preload-leave-active {
+  // z-index: 99999;
+  animation: fade-preloading 100ms;
+}
+@keyframes fade-preloading {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

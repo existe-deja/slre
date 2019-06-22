@@ -13,8 +13,12 @@
           type="button"
           class="controls left"></button>
           <div class="text">
-            <h2>{{ fullScreenObject.title }}</h2>
-            <p>{{ fullScreenObject.photo.caption }}</p>
+            <transition name="fade" mode="out-in">
+              <h2 :key="fullScreenObject.title">{{ fullScreenObject.title }}</h2>
+            </transition>
+            <transition name="fade" mode="out-in">
+              <p :key="fullScreenObject.photo.caption">{{ fullScreenObject.photo.caption }}</p>
+            </transition>
           </div>
           <button
           @click.stop.prevent="navigate(1)"
@@ -25,14 +29,10 @@
     <div class="wrapper-view">
       <div class="view">
         <transition name="fade" mode="out-in">
-          <img
-            v-if="preloading"
-            :key="fullScreenObject.photo.sizes.thumbnail"
-            class="preload"
-            :src="fullScreenObject.photo.sizes.thumbnail">
-          <img
-            v-else
-            :src="loadedSrc">
+          <preload-img
+            :key="`FS-${globalPhotoIndex}`"
+            :srcImg="fullScreenObject.photo.sizes.large"
+            :srcPlaceholder="fullScreenObject.photo.sizes.thumbnail"/>
         </transition>
       </div>
     </div>
@@ -40,35 +40,29 @@
 </template>
 
 <script>
+import PreloadImg from '@/components/PreloadImg'
 import { NAVIGATE_FULLSCREEN, RESET_FULLSCREEN } from '@/config'
 import { mapGetters, mapMutations } from 'vuex'
-import { TimelineLite, Power2 } from 'gsap/all'
 
 export default {
   name: 'FullScreen',
 
+  components: { PreloadImg },
+
   data () {
     return {
-      preloading: true,
-      loadedSrc: null
     }
   },
 
   computed: {
     ...mapGetters({
-      fullScreenObject: 'fullScreenObject'
+      fullScreenObject: 'fullScreenObject',
+      globalPhotoIndex: 'globalPhotoIndex'
     })
-  },
-
-  watch: {
-    preloading (val) {
-      console.log('preloading', val);
-    }
   },
 
   mounted () {
     this.$el.focus()
-    this.preloadingFunc()
   },
 
   methods: {
@@ -79,33 +73,6 @@ export default {
 
     navigate (direction) {
       this.navigateFullscreen(direction)
-      this.preloadingFunc()
-    },
-
-    preloadingFunc () {
-      this.preloading = true
-
-      let img = new Image()
-      console.log('src set');
-      img.src = this.fullScreenObject.photo.sizes.large
-
-      if (img.complete) {
-        this.removePreloading()
-      } else {
-        img.addEventListener('load', _ => {
-          this.removePreloading()
-        })
-        img.addEventListener('error', function() {
-            console.log('error')
-        })
-      }
-    },
-
-    removePreloading () {
-      console.log('complete', this.fullScreenObject.photo.sizes.large);
-
-      this.preloading = false
-      this.loadedSrc = this.fullScreenObject.photo.sizes.large
     }
   }
 }
@@ -200,17 +167,20 @@ export default {
   .view{
     width: 100%;
     height: 100%;
+    position: relative;
+
+    .preload-img{
+      width: 100%;
+      height: 100%;
+    }
 
     img{
       max-height: 100%;
-      margin: auto;
-    }
-    .preload{
-      width: 100%;
-      height: 100%;
-      filter: blur(50px);
-      /* this is needed so Safari keeps sharp edges */
-      transform: scale(1);
+      // margin: auto;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, 0);
     }
   }
 }
