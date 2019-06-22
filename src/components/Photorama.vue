@@ -1,8 +1,8 @@
 <template>
   <div class="photorama">
-    <header ref="header">
-      <h5 ref="date" class="date">{{ dateFormated }}</h5>
-      <h3 ref="title" class="title"/>
+    <header class="active">
+      <h5 class="date">{{ dateFormated }}</h5>
+      <h3 class="title">{{ title }}</h3>
     </header>
     <div
       class="text"
@@ -10,34 +10,40 @@
       v-html="text">
     </div>
     <section class="wrapper">
-      <div class="cover photo">
-        <img
-        :src="photos[0].sizes.large"
+      <div
         @click="handleClick(0)"
-        alt="">
+        class="cover photo">
+        <preload-img
+          :srcImg="photos[0].sizes.large"
+          :srcPlaceholder="photos[0].sizes.thumbnail"/>
       </div>
       <div class="thumbs">
-        <img
-          :src="photo.sizes.medium_large"
+        <div
           v-for="(photo, i) in photos.slice(1)"
           :key="photo.id"
           @click="handleClick(i + 1)"
-          class="photo"
-          >
+          class="photo">
+          <preload-img
+            :srcImg="photo.sizes.medium_large"
+            :srcPlaceholder="photo.sizes.thumbnail"/>
+        </div>
       </div>
     </section>
   </div>
 </template>
 <script>
+import PreloadImg from '@/components/PreloadImg'
 import dayjs from 'dayjs'
 import fr from 'dayjs/locale/fr'
 import { mapMutations } from 'vuex'
 import { SET_FULLSCREEN } from '@/config'
-import { TimelineLite, Power2 } from 'gsap/all'
+
 
 /* eslint-disable */
 export default {
   name: 'Photorama',
+
+  components: { PreloadImg },
 
   data () {
     return {
@@ -73,57 +79,11 @@ export default {
   },
 
   mounted () {
-    this.tl = new TimelineLite()
-    // let computedStyle = getComputedStyle(this.$refs.date)
-    let dateHeight = this.$refs.date.clientHeight
-    // dateHeight -= parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom)
-
-    this.tl
-      .pause()
-      .addLabel(`photorama${this.index}`)
-      .fromTo(this.$refs.date,
-        0.150,
-        {
-          height: 0,
-          ease: Power2.easeInOut,
-        },
-        {
-          height: dateHeight,
-        }
-      )
-      .to(
-        this.$refs.title,
-        1.3,
-        {
-          text: this.title,
-          ease: Power2.easeInOut,
-          onComplete: function (elem) { elem.classList.add('active') },
-          onCompleteParams: [this.$refs.header]
-        },
-        '-=0.15'
-      )
-      .staggerFromTo(
-        this.$el.querySelectorAll('.text p'),
-        0.750,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, ease: Power2.easeInOut },
-        0.2
-      )
-      .staggerFromTo(
-        this.$el.querySelectorAll('.photo'),
-        0.500,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, ease: Power2.easeInOut },
-        '-=0.2'
-      )
-      .call(() => {
-        this.played = true
-      })
-    if (this.autoplay) {
-      this.isScrolledIntoView()
-    } else {
-      window.addEventListener('scroll', this.isScrolledIntoView)
-    }
+    // if (this.autoplay) {
+    //   this.isScrolledIntoView()
+    // } else {
+    //   window.addEventListener('scroll', this.isScrolledIntoView)
+    // }
   },
 
   methods: {
@@ -132,6 +92,7 @@ export default {
     }),
 
     handleClick (i) {
+      console.log('handle');
       this.setFullscreen({photoramaIndex: this.index, photoIndex: i})
     },
 
@@ -144,7 +105,7 @@ export default {
       var isVisible = elemTop < window.innerHeight && elemBottom >= 0;
       if (isVisible && !this.played) {
         setTimeout(_ => {
-          this.tl.play()
+          // this.tl.play()
         }, 350)
         window.removeEventListener('scroll', this.isScrolledIntoView)
       }

@@ -21,11 +21,17 @@
 
 /* special fade for preload image */
 .fade-preload-enter-active {
-  animation: fade-preloading 150ms reverse;
+  animation: fade-preloading 100ms reverse;
+  z-index: -1
+}
+.fade-preload-enter-active,
+.fade-preload-leave-active
+{
+  position: absolute;
+  top: 0; left: 0;
 }
 .fade-preload-leave-active {
-  // z-index: 99999;
-  animation: fade-preloading 100ms;
+  animation: fade-preloading 200ms;
 }
 @keyframes fade-preloading {
   0% {

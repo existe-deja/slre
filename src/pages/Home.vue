@@ -49,10 +49,6 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
 import FullScreen from '@/components/FullScreen'
-import { CSSPlugin, TextPlugin } from 'gsap/all'
-
-// eslint-disable-next-line
-const plugins = [ CSSPlugin, TextPlugin ] // fucking gsap shit https://greensock.com/docs/NPMUsage
 
 export default {
   name: 'Home',
@@ -111,19 +107,19 @@ export default {
       font-weight: 900;
       position: relative;
 
-      &:before{
-        content: "";
-        display: block;
-        height: 100%;
-        border-left: 30px solid white;
-        left: 0;
-        top: 0;
-        position: absolute;
-      }
-
-      &.loading:before{
-        animation: 'infiniteSliding' 2750ms ease infinite;
-      }
+      // &:before{
+      //   content: "";
+      //   display: block;
+      //   height: 100%;
+      //   border-left: 30px solid white;
+      //   left: 0;
+      //   top: 0;
+      //   position: absolute;
+      // }
+      //
+      // &.loading:before{
+      //   animation: 'infiniteSliding' 2750ms ease infinite;
+      // }
     }
 
     p{

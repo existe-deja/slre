@@ -87,10 +87,6 @@ export default {
   .preload{
     width: 100%;
     filter: url("#sharpBlur");
-    // height: 100%;
-    // filter: blur(20px);
-    /* this is needed so Safari keeps sharp edges */
-    // transform: scale(1);
   }
 
   .hideSvgSoThatItSupportsFirefox {
