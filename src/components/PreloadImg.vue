@@ -11,7 +11,7 @@
         v-else
         key="preloadimage"
         :src="srcPlaceholder"
-        class="preload">
+        :class="['preload', {portrait: isPortrait}]">
     </transition>
     <!-- svg blur to have sharp edge -->
     <svg class='hideSvgSoThatItSupportsFirefox'>
@@ -31,7 +31,8 @@ export default {
   data () {
     return{
       loaded: false,
-      timeoutID: null
+      timeoutID: null,
+      isPortrait: false
     }
   },
 
@@ -41,7 +42,10 @@ export default {
   },
 
   mounted () {
-    this.preload()
+    this.preload(this.srcPlaceholder, img => {
+      this.isPortrait = img.height >= img.width
+    })
+    this.preload(this.srcImg, this.endPreloading)
   },
 
   beforeDestroy () {
@@ -51,17 +55,17 @@ export default {
   },
 
   methods: {
-    preload () {
+    preload (src, callback) {
       this.loaded = false
 
       let img = new Image()
-      img.src = this.srcImg
+      img.src = src
 
       if (img.complete) {
-        this.endPreloading()
+        callback(img)
       } else {
         img.addEventListener('load', () => {
-          this.endPreloading()
+        callback(img)
         })
         img.addEventListener('error', e => {
             console.log('img preload error') // eslint-disable-line
@@ -87,6 +91,11 @@ export default {
   .preload{
     width: 100%;
     filter: url("#sharpBlur");
+
+    &.portrait{
+      width: auto;
+      height: 100%;
+    }
   }
 
   .hideSvgSoThatItSupportsFirefox {

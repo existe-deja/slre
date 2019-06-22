@@ -117,9 +117,9 @@ export default {
       //   position: absolute;
       // }
       //
-      // &.loading:before{
-      //   animation: 'infiniteSliding' 2750ms ease infinite;
-      // }
+      &.loading{
+        animation: 'main-loading' 750ms ease infinite alternate;
+      }
     }
 
     p{

@@ -1,10 +1,10 @@
 /* loading effect */
-@keyframes infiniteSliding{
+@keyframes main-loading{
   0%{
-    transform: translateX(-100%);
+    color: #fff;
   }
   100%{
-    transform: translateX(100%);
+    color: $color_text_main
   }
 }
 
