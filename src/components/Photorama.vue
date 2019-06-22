@@ -14,7 +14,7 @@
         @click="handleClick(0)"
         class="cover photo">
         <preload-img
-          :srcImg="photos[0].sizes.large"
+          :srcImg="isItAMobile? photos[0].sizes.medium_large : photos[0].sizes.large"
           :srcPlaceholder="photos[0].sizes.thumbnail"/>
       </div>
       <div class="thumbs">
@@ -35,7 +35,7 @@
 import PreloadImg from '@/components/PreloadImg'
 import dayjs from 'dayjs'
 import fr from 'dayjs/locale/fr'
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { SET_FULLSCREEN } from '@/config'
 
 
@@ -62,6 +62,10 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      isItAMobile: state => state.isItAMobile
+    }),
+
     dateFormated () {
       let day = dayjs(this.dateGmt).locale(fr)
       return day.format('D MMMM YYYY')
