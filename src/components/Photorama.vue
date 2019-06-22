@@ -172,7 +172,7 @@ export default {
       margin-top: 0.75em;
       line-height: 1.5;
       &:first-child{
-        text-indent: 24px;
+        // text-indent: 24px;
       }
       strong{
         font-weight: 900;
