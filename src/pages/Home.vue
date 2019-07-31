@@ -1,7 +1,9 @@
 <template>
   <div class="home">
-    <header class="main-header wrapper">
-      <h1 :class="{loading: loading}">Vanorama</h1>
+    <header :class="['main-header', 'wrapper', {'loading': loading}]">
+      <h3 id="vanorama">Vanorama</h3>
+      <span id="devient">devient</span>
+      <h1 id="sacorama">Sacorama</h1>
     </header>
     <section>
       <div>
@@ -101,27 +103,27 @@ export default {
     text-align: center;
     font-family: $titleFont;
     padding: 24px 0 36px;
+    position: relative;
+    font-weight: 900;
+    letter-spacing: -0.012em;
 
-    h1{
-      font-family: $titleFont;
-      letter-spacing: -0.012em;
-      font-size: 12px * 3.5;
-      font-weight: 900;
-      position: relative;
+    #vanorama{
+      font-size: 1.1em;
+      transform: translate(-37px, 1px)
+    }
 
-      // &:before{
-      //   content: "";
-      //   display: block;
-      //   height: 100%;
-      //   border-left: 30px solid white;
-      //   left: 0;
-      //   top: 0;
-      //   position: absolute;
-      // }
-      //
-      &.loading{
-        animation: 'main-loading' 750ms ease infinite alternate;
-      }
+    #devient{
+      display: block;
+      font-size: 0.7em;
+      transform: translate(-41px, 1px)
+    }
+
+    #sacorama{
+      font-size: 2.5em;
+    }
+
+    &.loading{
+      animation: 'main-loading' 750ms ease infinite alternate;
     }
 
     p{
@@ -165,15 +167,39 @@ export default {
 }
 @media only screen and (min-width: 480px) {
   .home{
-    .main-header h1 {
-      font-size: 12px * 4;
+    .main-header {
+      #vanorama{
+        font-size: 1.4em;
+        transform: translate(-60px, 1px)
+      }
+
+      #devient{
+        font-size: 0.8em;
+        transform: translate(-55px, 2px)
+      }
+
+      #sacorama{
+        font-size: 3.4em;
+      }
     }
   }
 }
 @media only screen and (min-width: 620px) {
   .home{
-    .main-header h1 {
-      font-size: 12px * 6;
+    .main-header {
+      #vanorama{
+        font-size: 1.6em;
+        transform: translate(-90px, 1px);
+      }
+
+      #devient{
+        font-size: 0.9em;
+        transform: translate(-79px, 4px)
+      }
+
+      #sacorama{
+        font-size: 4.6em;
+      }
     }
   }
 }
