@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <header class="main-header wrapper">
-      <h1 :class="{loading: loading}">VANORAMA</h1>
+      <h1 :class="{loading: loading}">Vanorama</h1>
     </header>
     <section>
       <div>
@@ -99,11 +99,11 @@ export default {
   min-width: 300px;
   .main-header{
     text-align: center;
-    font-family: $montserrat;
+    font-family: $titleFont;
     padding: 24px 0 36px;
 
     h1{
-      font-family: $montserrat;
+      font-family: $titleFont;
       letter-spacing: -0.012em;
       font-size: 12px * 3.5;
       font-weight: 900;

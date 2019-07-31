@@ -241,11 +241,11 @@ export default {
     .background{
       .land{
         pointer-events: none;
-        fill: #c9d091;
+        fill: $landcolor;
       }
       .graticule{
         fill: none;
-        stroke: #a1a986;
+        stroke: $graticulecolor;
         stroke-width: 0.1px;
       }
     }
@@ -255,14 +255,14 @@ export default {
       .borders{
         pointer-events: none;
         fill: none;
-        stroke: #F2F2F2;
+        stroke: $bordercolor;
         stroke-width: 0.5px;
       }
 
       .visited{
         pointer-events: none;
-        fill: #9fa571;
-        stroke: #F2F2F2;
+        fill: $visitedcolor;
+        stroke: $bordercolor;
         stroke-width: 0.2px;
       }
       .centering{
@@ -271,7 +271,6 @@ export default {
     }
 
     .trip-drawing{
-      $tripcolor: #242614;
       line{
         stroke: $tripcolor;
         stroke-width: 1.5;

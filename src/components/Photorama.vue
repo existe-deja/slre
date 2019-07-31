@@ -138,7 +138,7 @@ export default {
       content: '';
       display: block;
       position: absolute;
-      background: $color_text_main;
+      background: $visitedcolor;
       height: 2px;
       width: 0;
       transition: all 400ms ease;
@@ -153,19 +153,23 @@ export default {
   .title{
     // text-transform: uppercase;
     font-size: 24px;
+    margin-top: 6px;
     margin-bottom: 2px;
     padding-right: $main_photo_gap;
+    color: $tripcolor;
   }
   .date{
     font-size: 12px;
     line-height: 22px;
     text-transform: lowercase;
-    font-family: $inconsolata;
+    font-family: $technicalFont;
     font-weight: 700;
-    background: $color_text_main;
-    color: white;
-    padding: 0 36px 0 6px;
+    background: $landcolor;
+    color: $tripcolor;
+    padding: 0 8px 0 6px;
     display: inline-block;
+    // box-shadow: 3px 0px 0px $visitedcolor;
+    // border-left: 3px solid $visitedcolor;
   }
   .text{
     margin-top: 1.5em;

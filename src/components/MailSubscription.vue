@@ -93,10 +93,11 @@ export default {
       border: 1px solid $color_text_date;
       color: $color_text_main;
       padding: 10px 40px 10px 20px;
-      font-size: 1em;
+      font-size: 1.1em;
       border-radius: 3px;
       cursor: pointer;
       outline: none;
+      font-family: $corpusFont;
 
       &::after{
         content: '';
