@@ -109,13 +109,13 @@ export default {
 
     #vanorama{
       font-size: 1.1em;
-      transform: translate(-37px, 1px)
+      transform: translate(-37px, 0px)
     }
 
     #devient{
       display: block;
       font-size: 0.7em;
-      transform: translate(-41px, 1px)
+      transform: translate(-37px, 1px)
     }
 
     #sacorama{

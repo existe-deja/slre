@@ -40,15 +40,15 @@
           :transform="translater(tripPointsProjected[0].coords)"
           class="start-trip-point">
           <line
-            :x1="-4"
-            :y1="-4"
-            :x2="4"
-            :y2="4"/>
+            :x1="-lineSize"
+            :y1="-lineSize"
+            :x2="lineSize"
+            :y2="lineSize"/>
           <line
-            :x1="-4"
-            :y1="4"
-            :x2="4"
-            :y2="-4"/>
+            :x1="-lineSize"
+            :y1="lineSize"
+            :x2="lineSize"
+            :y2="-lineSize"/>
         </g>
         <g
           :transform="translater(tripPointsProjected[tripPointsProjected.length - 1].coords)"
@@ -56,11 +56,11 @@
           <circle
             :cx="0"
             :cy="0"
-            r="5"/>
+            :r="circleSize"/>
           <circle
             :cx="0"
             :cy="0"
-            r="2"/>
+            :r="circleSize / 2"/>
         </g>
 
         <path
@@ -92,7 +92,6 @@ export default {
       land: [],
       debugVisited: [],
       debugCountry: [],
-      rotate: [0, 19],
       publicPath: process.env.BASE_URL,
       centeringCountries: null,
       visitedCountries: null
@@ -101,7 +100,7 @@ export default {
 
   computed: {
     ...mapState({
-      // rotate: state => state.mapParams.rotate,
+      rotate: state => state.mapParams.rotate,
       centeringIds: state => state.mapParams.centeringIds,
       visitedIds: state => state.mapParams.visitedIds,
       tripPoints: state => state.mapParams.tripPoints,
@@ -142,6 +141,14 @@ export default {
 
     percent () {
       return this.isItAMobile ? 0.98 : 0.95
+    },
+
+    lineSize () {
+      return this.isItAMobile ? 3 : 4
+    },
+
+    circleSize () {
+      return this.isItAMobile ? 4 : 5
     }
   },
 
@@ -273,13 +280,13 @@ export default {
     .trip-drawing{
       line{
         stroke: $tripcolor;
-        stroke-width: 1.5;
+        stroke-width: 1;
         pointer-events: none;
       }
       .end-trip-point{
         circle:nth-child(1){
           stroke: $tripcolor;
-          stroke-width: 1.5;
+          stroke-width: 1;
           fill: none;
           pointer-events: none;
         }
@@ -292,10 +299,10 @@ export default {
       .trip-line{
         fill: none;
         stroke: $tripcolor;
-        stroke-width: 1.5;
+        stroke-width: 1;
         stroke-linecap: round;
         stroke-linejoin: round;
-        stroke-dasharray: 3,3;
+        stroke-dasharray: 2,3;
         pointer-events: none;
         shape-rendering: optimizeQuality
       }
@@ -305,7 +312,22 @@ export default {
 @media only screen and (min-width: 620px) {
   .travel-map{
     svg{
-      height: 300px
+      height: 300px;
+
+      .trip-drawing{
+        line{
+          stroke-width: 1.5;
+        }
+        .end-trip-point{
+          circle:nth-child(1){
+            stroke-width: 1.5;
+          }
+        }
+        .trip-line{
+          stroke-width: 1.5;
+          stroke-dasharray: 3,3;
+        }
+      }
     }
   }
 }
