@@ -1,14 +1,17 @@
 <template>
   <div class="photorama">
-    <header class="active">
-      <h5 class="date">{{ dateFormated }}</h5>
-      <h3 class="title">{{ title }}</h3>
-    </header>
-    <div
-      class="text"
-      v-if="text.length > 0"
-      v-html="text">
+    <div class="wrapper-text">
+      <header>
+        <h5 class="date">{{ dateFormated }}</h5>
+        <h3 class="title">{{ title }}</h3>
+      </header>
+      <div
+        class="text"
+        v-if="text.length > 0"
+        v-html="text">
+      </div>
     </div>
+
     <section class="wrapper">
       <div
         @click="handleClick(0)"
@@ -96,7 +99,6 @@ export default {
     }),
 
     handleClick (i) {
-      console.log('handle');
       this.setFullscreen({photoramaIndex: this.index, photoIndex: i})
     },
 
@@ -124,9 +126,12 @@ export default {
 .photorama{
   width: 100%;
 
+  .wrapper-text{
+    margin: 0 24px;
+  }
+
   header{
     margin-bottom: 15px;
-    margin-left: 24px;
     position: relative;
 
     &:after{
@@ -137,8 +142,6 @@ export default {
       height: 2px;
       width: 0;
       transition: all 400ms ease;
-    }
-    &.active:after{
       width: 100%;
     }
   }
@@ -167,7 +170,6 @@ export default {
   .text{
     margin-top: 1.5em;
     margin-bottom: 2em;
-    margin-left: 24px;
     p{
       margin-top: 0.75em;
       line-height: 1.5;
@@ -205,19 +207,24 @@ export default {
 
   }
   .thumbs{
-    margin-top: $main_photo_gap;
+    margin-top: $main_photo_gap / 2;
 
     .photo + .photo{
-      margin-top: $main_photo_gap;
+      margin-top: $main_photo_gap / 2;
     }
   }
 }
 @media only screen and (min-width: 480px) {
   .photorama {
     .thumbs{
+      margin-top: $main_photo_gap;
       column-width: 250px;
       column-gap: $main_photo_gap;
       column-fill: balance;
+
+      .photo + .photo{
+        margin-top: $main_photo_gap;
+      }
     }
   }
 }

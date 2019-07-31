@@ -8,10 +8,10 @@
         <mail-subscription/>
       </div>
 
-      <div>
-        <full-screen
+      <travel-map v-if="!initialLoading"/>
+
+      <full-screen
           v-if="isFullScreen && !isItAMobile"/>
-      </div>
 
       <div class="wrapper">
         <photorama
@@ -49,11 +49,12 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import MailSubscription from '@/components/MailSubscription'
 import Photorama from '@/components/Photorama'
 import FullScreen from '@/components/FullScreen'
+import TravelMap from '@/components/TravelMap'
 
 export default {
   name: 'Home',
 
-  components: { Photorama, MailSubscription, FullScreen },
+  components: { Photorama, MailSubscription, FullScreen, TravelMap },
 
   data () {
     return {
@@ -64,6 +65,7 @@ export default {
 
   computed: {
     ...mapState({
+      initialLoading: state => state.initialLoading,
       loading: state => state.loading,
       fullyLoaded: state => state.fullyLoaded,
       photoramas: state => state.photoramas,
