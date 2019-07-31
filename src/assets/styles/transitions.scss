@@ -1,0 +1,43 @@
+/* loading effect */
+@keyframes main-loading{
+  0%{
+    color: #fff;
+  }
+  100%{
+    color: $color_text_main
+  }
+}
+
+/* main fade transition */
+.fade-enter-active {
+  transition: opacity 350ms ease;
+}
+.fade-leave-active {
+  transition: opacity 50ms ease;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+/* special fade for preload image */
+.fade-preload-enter-active {
+  animation: fade-preloading 100ms reverse;
+  z-index: -1
+}
+.fade-preload-enter-active,
+.fade-preload-leave-active
+{
+  position: absolute;
+  top: 0; left: 0;
+}
+.fade-preload-leave-active {
+  animation: fade-preloading 200ms;
+}
+@keyframes fade-preloading {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
